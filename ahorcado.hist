@@ -1,0 +1,71 @@
+package ejercicios_repaso;
+
+import java.util.Scanner;
+import java.util.Random;
+
+public class ejercicio5262 {
+
+	public static void main(String[] args) {
+		Scanner teclado = new Scanner(System.in);
+		Random r = new Random();
+
+		// Creo los contadores
+		int vidas = 6;
+
+		// Lista de posibles palabras
+		String[] palabras = { "java", "programa", "teclado", "pantalla", "raton", "codigo", "internet" };
+		String palabraSecreta = palabras[r.nextInt(palabras.length)];
+
+		// Sustituyo las palabras por guiones
+		StringBuilder ahorcado = new StringBuilder();
+		for (int i = 0; i < palabraSecreta.length(); i++) {
+			ahorcado.append('_');
+		}
+
+		// Creo un bucle donde la condicion cuando las vida sea nayor que cero le
+		// permite al usuario introducir
+		while (vidas > 0) {
+			System.out.println("Palabra: " + ahorcado);
+			System.out.print("Dime una letra: ");
+			String entrada = teclado.nextLine();
+
+			// Validación de entrada
+			if (entrada.length() != 1) {
+				System.out.println("Por favor, introduce solo una letra.");
+				continue;
+			}
+
+			char letra = entrada.charAt(0);
+			boolean acierto = false;
+
+			// Comprobación de la letra en la palabra secreta
+			for (int i = 0; i < palabraSecreta.length(); i++) {
+				if (palabraSecreta.charAt(i) == letra && ahorcado.charAt(i) == '_') {
+					ahorcado.setCharAt(i, letra);
+					acierto = true;
+				}
+			}
+
+			// Actualización de vidas y mensajes
+			if (!acierto) {
+				vidas--;
+				System.out.println("¡Fallaste! Te quedan " + vidas + " vidas.");
+			} else {
+				System.out.println("¡Bien hecho!");
+			}
+
+			// Comprobación de victoria
+			if (ahorcado.toString().equals(palabraSecreta)) {
+				System.out.println("\n¡Felicidades! Has adivinado la palabra: " + palabraSecreta);
+				break;
+			}
+		}
+
+		// Mensaje de derrota
+		if (!ahorcado.toString().equals(palabraSecreta)) {
+			System.out.println("\n¡Has perdido! La palabra era: " + palabraSecreta);
+		}
+
+		teclado.close();
+	}
+}
